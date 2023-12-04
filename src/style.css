@@ -1,0 +1,12 @@
+@import "../node_modules/@marcreichel/apple-tv-card/dist/main.css";
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #222222;
+	color: white;
+}
