@@ -35,7 +35,8 @@ export default {
 	</header>
 
 	<main>
-		<AppCollection :horizontal="true" :movieArray="store.movies" />
+		<AppCollection :horizontal="true" :movieArray="store.movies" id="prova1" />
+		<AppCollection :horizontal="true" :movieArray="store.movies" id="prova2" />
 		<AppCollection :horizontal="false" :movieArray="store.movies" />
 	</main>
 </template>
