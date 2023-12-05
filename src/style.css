@@ -1,5 +1,3 @@
-@import "../node_modules/@marcreichel/apple-tv-card/dist/main.css";
-
 * {
 	margin: 0;
 	padding: 0;
@@ -9,4 +7,8 @@
 body {
 	background-color: #222222;
 	color: white;
+}
+
+p {
+	margin: 0;
 }
