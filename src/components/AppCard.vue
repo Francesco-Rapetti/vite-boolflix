@@ -1,21 +1,24 @@
 <script>
+import { store } from '../store.js'
 export default {
     name: 'AppCard',
     props: {
-        title: String,
-        overview: String,
-        originalLanguage: String,
-        imgPath: String,
-        posterPath: String,
-        voteAverage: Number,
+        movie: Object
+    },
+    data() {
+        return {
+            store,
+        }
     }
 }
 </script>
 
 <template>
-    <div class="backdrop-container rounded-3 overflow-hidden">
-        <img class="w-100" :src="imgPath" :alt="title">
-        <div class="title">{{ title }}</div>
+    <div @click="$emit('showInfo', movie)">
+        <div class="backdrop-container rounded-3 overflow-hidden">
+            <img class="w-100" :src="store.apiImg + movie.backdrop_path" :alt="movie.title">
+        </div>
+        <div class="title">{{ movie.title }}</div>
     </div>
 </template>
 

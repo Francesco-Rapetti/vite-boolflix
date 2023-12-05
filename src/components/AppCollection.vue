@@ -50,10 +50,8 @@ export default {
             'overflow-scroll': horizontal
         }">
             <div v-for="movie in movieArray">
-                <AppCard v-if="movie.backdrop_path" :class="{ 'm-1': movie.backdrop_path }"
-                    :imgPath="`${store.apiImg}${movie.backdrop_path}`" :title="movie.title" :overview="movie.overview"
-                    :originalLanguage="movie.original_language" :voteAverage="movie.vote_average"
-                    :posterPath="`${store.apiImg}${movie.poster_path}`" />
+                <AppCard v-if="movie.backdrop_path" :class="{ 'm-1': movie.backdrop_path }" :movie="movie"
+                    @showInfo="movie => $emit('showMovieInfo', movie)" />
 
             </div>
         </div>
