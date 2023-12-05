@@ -1,12 +1,14 @@
 <script>
 import AppHeader from './components/AppHeader.vue';
 import AppCollection from './components/AppCollection.vue';
+import AppCardInfo from './components/AppCardInfo.vue';
 import axios from 'axios';
 import { store } from './store';
 export default {
 	components: {
 		AppHeader,
-		AppCollection
+		AppCollection,
+		AppCardInfo
 	},
 
 	data() {
@@ -30,6 +32,9 @@ export default {
 </script>
 
 <template>
+	<AppCardInfo :poster="store.apiImg + store.movies[0].poster_path" :title="store.movies[0].title"
+		:releaseDate="store.movies[0].release_date" :originalLanguage="store.movies[0].original_language"
+		:voteAverage="store.movies[0].vote_average" :overview="store.movies[0].overview" />
 	<header>
 		<AppHeader />
 	</header>
