@@ -22,7 +22,7 @@ export default {
         scrollRight(id) {
             const collection = document.getElementById(id)
             collection.scrollBy({
-                left: 400,
+                left: 408,
                 behavior: 'smooth'
             })
         },
@@ -30,7 +30,7 @@ export default {
         scrollLeft(id) {
             const collection = document.getElementById(id)
             collection.scrollBy({
-                left: -400,
+                left: -408,
                 behavior: 'smooth'
             })
         }
