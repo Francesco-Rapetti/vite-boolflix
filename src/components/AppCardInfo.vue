@@ -9,6 +9,7 @@ export default {
         originalLanguage: String,
         voteAverage: Number,
         overview: String,
+        close: Function
     },
 
     data() {
@@ -72,7 +73,8 @@ export default {
                 <img :src="poster" alt="">
             </div>
 
-            <div id="text" class="w-50 d-flex flex-column align-items-center m-5 text-center">
+            <div id="text" class="w-50 d-flex flex-column align-items-center m-5 text-center position-relative">
+                <div class="position-absolute button" @click="close"><i class="fa-solid fa-circle-xmark fs-5"></i></div>
                 <h3>{{ title }}</h3>
                 <p class="mb-3">{{ `${releaseDate.substring(8, 10)}/${releaseDate.substring(5,
                     7)}/${releaseDate.substring(0, 4)}` }}
@@ -96,6 +98,22 @@ export default {
 </template>
 
 <style scoped>
+.button {
+    top: -30px;
+    right: -30px;
+    opacity: 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.button:hover {
+    opacity: 1 !important;
+}
+
+#card-info:hover .button {
+    opacity: .5;
+}
+
 #card-info {
     width: 500px;
     height: 750px;
