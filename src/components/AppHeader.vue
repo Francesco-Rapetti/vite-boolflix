@@ -1,7 +1,7 @@
 <script></script>
 
 <template>
-    <nav class="navbar navbar-expand-lg bg-light">
+    <nav class="navbar navbar-expand-lg bg-light position-fixed w-100 z-3">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">BOOLFLIX</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
