@@ -9,8 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@marcreichel/apple-tv-card": "^1.0.2",
     "axios": "^1.6.2",
+    "svg-country-flags": "^1.2.10",
     "vue": "^3.3.8"
   },
   "devDependencies": {
