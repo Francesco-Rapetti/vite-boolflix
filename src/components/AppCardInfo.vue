@@ -22,6 +22,8 @@ export default {
             let flag = originalLanguage;
             switch (originalLanguage) {
                 case 'en': flag = 'gb'; break;
+                case 'ja': flag = 'jp'; break;
+                case 'ko': flag = 'kr'; break;
                 default: break;
             }
             return new URL(`../../node_modules/svg-country-flags/svg/${flag}.svg`, import.meta.url).href;
@@ -67,7 +69,8 @@ export default {
 </script>
 
 <template>
-    <div id="blurback" class="justify-content-center align-items-center">
+    <div id="blurback" class="justify-content-center align-items-center"
+        @click="(event) => { if (event.target.id === 'blurback') close() }">
         <div id="card-info" class="rounded-4 overflow-hidden d-flex">
             <div>
                 <img :src="poster" alt="">

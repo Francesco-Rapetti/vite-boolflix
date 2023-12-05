@@ -4,5 +4,7 @@ export const store = reactive({
     apiSearchMovies: `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=`,
     apiSearchTv: `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=`,
     apiImg: "https://image.tmdb.org/t/p/w500",
-    movies: []
+    movies: [],
+    series: [],
+    search: ''
 });

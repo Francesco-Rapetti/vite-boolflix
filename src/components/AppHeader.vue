@@ -1,4 +1,26 @@
-<script></script>
+<script>
+import { store } from '../store.js';
+export default {
+    name: 'AppHeader',
+    props: {
+        buttonFunction: Function
+    },
+    data() {
+        return {
+            store,
+            inputValue: ''
+        }
+    },
+
+    methods: {
+        setValue() {
+            this.store.search = this.inputValue
+            this.buttonFunction()
+            document.querySelector('input').value = ''
+        }
+    }
+}
+</script>
 
 <template>
     <nav class="navbar navbar-expand-lg bg-light position-fixed w-100 z-3">
@@ -23,10 +45,11 @@
                         <a class="nav-link" href="#">La mia lista</a>
                     </li>
                 </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
+                <div class="d-flex">
+                    <input id="inputSearch" type="text" name="search" @input="inputValue = $event.target.value"
+                        @keyup.enter="setValue">
+                    <button class="btn btn-outline-success" @click="setValue">Search</button>
+                </div>
             </div>
         </div>
     </nav>

@@ -20,9 +20,17 @@ export default {
 
 	methods: {
 		getImageDebug() {
-			axios.get(this.store.apiSearchMovies + "back%20to%20the%20future").then((response) => {
+			console.log('getImageDebug')
+			console.log(this.store.search)
+			axios.get(this.store.apiSearchMovies + encodeURI(this.store.search)).then((response) => {
 				this.store.movies = response.data.results
 			})
+
+			axios.get(this.store.apiSearchTv + encodeURI(this.store.search)).then((response) => {
+				this.store.series = response.data.results
+			})
+
+			console.log(this.store.series)
 		},
 
 		/**
@@ -76,31 +84,51 @@ export default {
 			text.style.opacity = '1';
 		},
 
+
+		/**
+		 * Closes the movie information panel.
+		 *
+		 * @return {Promise<void>} Resolves after closing the movie information.
+		 */
 		async closeMovieInfo() {
+			// Delay function that resolves after a given number of milliseconds
 			const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+			// Get the blur background, card info, and text elements
 			const blurback = document.getElementById('blurback');
 			const cardInfo = document.getElementById('card-info');
 			const text = document.getElementById('text');
 
+			// Set the text opacity to 0
 			text.style.opacity = '0';
 
+			// Wait for 500 milliseconds
 			await delay(500);
 
+			// Set the card info width to 500px
 			cardInfo.style.width = '500px';
 
+			// Wait for 300 milliseconds
 			await delay(300);
 
+			// Set the card info opacity to 0 and scale it to 0.5
 			cardInfo.style.opacity = '0';
 			cardInfo.style.transform = 'scale(0.5)';
 
+			// Wait for 300 milliseconds
 			await delay(300);
 
+			// Set the blur background opacity to 0
 			blurback.style.opacity = '0';
 
+			// Wait for 300 milliseconds
 			await delay(300);
 
+			// Hide the blur background and enable scrolling
 			blurback.style.display = 'none';
 			document.body.style.overflow = 'auto';
+
+			// Set the current movie to null
 			this.currentMovie = null;
 		}
 	},
@@ -113,18 +141,25 @@ export default {
 
 <template>
 	<header>
-		<AppHeader />
+		<AppHeader :button-function="getImageDebug" />
 		<div id="header-spacer"></div>
 	</header>
 
 	<main>
 		<AppCardInfo v-if="currentMovie" :id="currentMovie.id" :poster="store.apiImg + currentMovie.poster_path"
-			:title="currentMovie.title" :releaseDate="currentMovie.release_date"
+			:title="currentMovie.title ? currentMovie.title : currentMovie.name"
+			:releaseDate="currentMovie.release_date ? currentMovie.release_date : currentMovie.first_air_date"
 			:originalLanguage="currentMovie.original_language" :voteAverage="currentMovie.vote_average"
 			:overview="currentMovie.overview" :close="closeMovieInfo" />
-		<AppCollection :horizontal="true" :movieArray="store.movies" id="prova1" @showMovieInfo="getMovieInfo" />
-		<AppCollection :horizontal="true" :movieArray="store.movies" id="prova2" @showMovieInfo="getMovieInfo" />
-		<AppCollection :horizontal="false" :movieArray="store.movies" @showMovieInfo="getMovieInfo" />
+		<h2 v-if="store.search != ''" class="p-4">{{ `Risultati per: ${store.search}` }}</h2>
+		<!-- <AppCollection :horizontal="true" :movieArray="store.movies" id="prova1" section-name="prova1"
+			@showMovieInfo="getMovieInfo" />
+		<AppCollection :horizontal="true" :movieArray="store.movies" id="prova2" section-name="prova2"
+			@showMovieInfo="getMovieInfo" /> -->
+		<AppCollection v-if="store.search != ''" :horizontal="false" :movieArray="store.movies" section-name="Film"
+			@showMovieInfo="getMovieInfo" />
+		<AppCollection v-if="store.search != ''" :horizontal="false" :movieArray="store.series" section-name="Serie Tv"
+			@showMovieInfo="getMovieInfo" />
 	</main>
 </template>
 

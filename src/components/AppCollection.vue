@@ -9,7 +9,8 @@ export default {
     props: {
         movieArray: Array,
         horizontal: Boolean,
-        id: String
+        id: String,
+        sectionName: String
     },
     name: 'AppCollection',
     data() {
@@ -25,6 +26,13 @@ export default {
                 left: 408,
                 behavior: 'smooth'
             })
+            // console.log(collection.clientWidth)
+            // console.log(collection.scrollLeft)
+            // console.log(collection.scrollWidth)
+            if (collection.scrollWidth - collection.clientWidth - collection.scrollLeft < 1) {
+                console.log('FUNZIONA!!')
+
+            }
         },
 
         scrollLeft(id) {
@@ -33,34 +41,40 @@ export default {
                 left: -408,
                 behavior: 'smooth'
             })
+            // console.log(collection.clientWidth)
+            // console.log(collection.scrollLeft)
+            // console.log(collection.scrollWidth)
         }
     },
 
     mounted() {
+
     }
 }
 </script>
 
 <template>
-    <div class="wrapper position-relative">
-        <div :id="id" class="d-flex collection" :class="{
-            'flex-row': horizontal,
-            'flex-wrap': !horizontal,
-            'justify-content-center': !horizontal,
-            'overflow-scroll': horizontal
-        }">
-            <div v-for="movie in movieArray">
-                <AppCard v-if="movie.backdrop_path" :class="{ 'm-1': movie.backdrop_path }" :movie="movie"
-                    @showInfo="movie => $emit('showMovieInfo', movie)" />
+    <div>
+        <h2 class="m-3">{{ sectionName }}</h2>
+        <div class="wrapper position-relative">
+            <div :id="id" class="d-flex collection" :class="{
+                'flex-row': horizontal,
+                'flex-wrap': !horizontal,
+                'justify-content-center': !horizontal,
+                'overflow-scroll': horizontal
+            }">
+                <div v-for="movie in movieArray">
+                    <AppCard v-if="movie.backdrop_path" :class="{ 'm-1': movie.backdrop_path }" :movie="movie"
+                        @showInfo="movie => $emit('showMovieInfo', movie)" />
 
+                </div>
+            </div>
+            <div v-if="horizontal" class="button right"><i class="fa-solid fa-circle-chevron-right fs-3"
+                    @click="scrollRight(id)"></i></div>
+            <div v-if="horizontal" class="button left"><i class="fa-solid fa-circle-chevron-left fs-3"
+                    @click="scrollLeft(id)"></i>
             </div>
         </div>
-        <div v-if="horizontal" class="button right"><i class="fa-solid fa-circle-chevron-right fs-3"
-                @click="scrollRight(id)"></i></div>
-        <div v-if="horizontal" class="button left"><i class="fa-solid fa-circle-chevron-left fs-3"
-                @click="scrollLeft(id)"></i>
-        </div>
-
     </div>
 </template>
 
