@@ -2,6 +2,7 @@
 export default {
     name: 'AppCardInfo',
     props: {
+        id: Number,
         poster: String,
         title: String,
         releaseDate: String,
@@ -65,13 +66,13 @@ export default {
 </script>
 
 <template>
-    <div class="blurback d-flex justify-content-center align-items-center">
+    <div id="blurback" class="justify-content-center align-items-center">
         <div id="card-info" class="rounded-4 overflow-hidden d-flex">
             <div>
                 <img :src="poster" alt="">
             </div>
 
-            <div class="w-50 d-flex flex-column align-items-center m-5 text-center">
+            <div id="text" class="w-50 d-flex flex-column align-items-center m-5 text-center">
                 <h3>{{ title }}</h3>
                 <p class="mb-3">{{ `${releaseDate.substring(8, 10)}/${releaseDate.substring(5,
                     7)}/${releaseDate.substring(0, 4)}` }}
@@ -96,7 +97,7 @@ export default {
 
 <style scoped>
 #card-info {
-    width: 1000px;
+    width: 500px;
     height: 750px;
     background: rgba(0, 0, 0, 0.66);
     border-radius: 16px;
@@ -104,14 +105,22 @@ export default {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     transition: all 0.5s ease;
+    opacity: 0;
+    transform: scale(0.5);
 }
 
 #flag {
     width: 50px;
 }
 
-.blurback {
-    position: absolute;
+#text {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+#blurback {
+    display: none;
+    position: fixed;
     width: 100%;
     height: 100vh;
     background: rgba(0, 0, 0, 0.363);
@@ -120,6 +129,6 @@ export default {
     -webkit-backdrop-filter: blur(20px);
     z-index: 99;
     transition: opacity 0.5s ease;
-    opacity: 1;
+    opacity: 0;
 }
 </style>
