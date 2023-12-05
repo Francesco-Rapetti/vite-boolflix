@@ -30,6 +30,10 @@ export default {
 				this.store.series = response.data.results
 			})
 
+			this.store.home = false;
+			this.store.film = false;
+			this.store.tvSeries = false;
+			this.store.myList = false;
 			console.log(this.store.series)
 		},
 
@@ -153,9 +157,25 @@ export default {
 			:overview="currentMovie.overview" :close="closeMovieInfo" />
 		<h2 v-if="store.search != ''" class="p-4">{{ `Risultati per: ${store.search}` }}</h2>
 		<!-- <AppCollection :horizontal="true" :movieArray="store.movies" id="prova1" section-name="prova1"
-			@showMovieInfo="getMovieInfo" />
+		@showMovieInfo="getMovieInfo" />
 		<AppCollection :horizontal="true" :movieArray="store.movies" id="prova2" section-name="prova2"
-			@showMovieInfo="getMovieInfo" /> -->
+		@showMovieInfo="getMovieInfo" /> -->
+		<!-- Home -->
+		<div v-if="store.home" id="home">
+			home
+		</div>
+
+		<div v-if="store.tvSeries" id="tvSeries">
+			serie tv
+		</div>
+
+		<div v-if="store.film" id="film">
+			film
+		</div>
+
+		<div v-if="store.myList" id="myList">
+			la mia lista
+		</div>
 		<AppCollection v-if="store.search != ''" :horizontal="false" :movieArray="store.movies" section-name="Film"
 			@showMovieInfo="getMovieInfo" />
 		<AppCollection v-if="store.search != ''" :horizontal="false" :movieArray="store.series" section-name="Serie Tv"

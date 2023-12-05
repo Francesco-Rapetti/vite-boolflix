@@ -6,5 +6,9 @@ export const store = reactive({
     apiImg: "https://image.tmdb.org/t/p/w500",
     movies: [],
     series: [],
-    search: ''
+    search: '',
+    home: true,
+    tvSeries: false,
+    film: false,
+    myList: false
 });
