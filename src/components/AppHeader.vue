@@ -75,7 +75,7 @@ export default {
                 <div class="d-flex">
                     <input id="inputSearch" type="text" name="search" @input="inputValue = $event.target.value"
                         @keyup.enter="setValue">
-                    <button class="btn btn-outline-success" @click="setValue">Search</button>
+                    <button class="btn btn-outline-danger" @click="setValue">Search</button>
                 </div>
             </div>
         </div>
@@ -83,6 +83,23 @@ export default {
 </template>
 
 <style scoped>
+input {
+    background-color: #222222;
+    border: none;
+    border-radius: 16px;
+    margin-right: 0.5rem;
+    padding: 12px;
+    color: white;
+}
+
+input:focus {
+    outline: none;
+}
+
+button {
+    border-radius: 16px;
+}
+
 a {
     color: white;
     font-size: larger;
