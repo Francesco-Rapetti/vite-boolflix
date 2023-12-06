@@ -191,9 +191,34 @@ export default {
 		<h2 v-if="store.search != ''" class="p-4">{{ `Risultati per: ${store.search}` }}</h2>
 		<!-- Home -->
 		<div v-if="store.home" id="home">
-			home
-		</div>
+			<h2 class="p-4">Popular</h2>
+			<AppCollection :horizontal="true" :movieArray="popularMovies" section-name="Movies" id="popular"
+				@showMovieInfo="getMovieInfo"
+				@loadMore="getCollectionArray(popularMovies, store.apiPopularMovies, popularMoviesPage)" />
 
+			<div class="spacer"></div>
+
+			<AppCollection :horizontal="true" :movieArray="popularSeries" section-name="Tv Series" id="popularSeries"
+				@showMovieInfo="getMovieInfo"
+				@loadMore="getCollectionArray(popularSeries, store.apiPopularSeries, popularSeriesPage)" />
+
+			<div class="spacer"></div>
+
+			<h2 class="p-4">Top rated</h2>
+			<AppCollection :horizontal="true" :movieArray="topRatedMovies" section-name="Movies" id="topRated"
+				@showMovieInfo="getMovieInfo"
+				@loadMore="getCollectionArray(topRatedMovies, store.apiTopRatedMovies, topRatedMoviesPage)" />
+
+			<div class="spacer"></div>
+
+			<AppCollection :horizontal="true" :movieArray="topRatedSeries" section-name="Tv Series" id="topRatedSeries"
+				@showMovieInfo="getMovieInfo"
+				@loadMore="getCollectionArray(topRatedSeries, store.apiTopRatedSeries, topRatedSeriesPage)" />
+
+			<div class="spacer"></div>
+
+		</div>
+		<!-- TV -->
 		<div v-if="store.tvSeries" id="tvSeries">
 			<AppCollection :horizontal="true" :movieArray="airingTodaySeries" section-name="Airing today" id="airingToday"
 				@showMovieInfo="getMovieInfo"
@@ -220,7 +245,7 @@ export default {
 
 			<div class="spacer"></div>
 		</div>
-
+		<!-- Film -->
 		<div v-if="store.film" id="film">
 			<AppCollection :horizontal="true" :movieArray="upcomingMovies" section-name="Upcoming" id="upcoming"
 				@showMovieInfo="getMovieInfo"
