@@ -289,7 +289,7 @@ export default {
 }
 
 .spacer {
-	height: 2rem;
+	height: 1rem;
 }
 </style>
  
