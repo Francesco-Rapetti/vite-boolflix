@@ -20,6 +20,16 @@ export default {
     },
 
     methods: {
+        scrollMouse(id) {
+            const collection = document.getElementById(id)
+            if (this.horizontal) {
+                if (collection.scrollWidth - collection.clientWidth - collection.scrollLeft < 1) {
+                    console.log('FUNZIONA!!')
+                    this.$emit('loadMore')
+                }
+            }
+        },
+
         scrollRight(id) {
             const collection = document.getElementById(id)
             collection.scrollBy({
@@ -29,10 +39,6 @@ export default {
             // console.log(collection.clientWidth)
             // console.log(collection.scrollLeft)
             // console.log(collection.scrollWidth)
-            if (collection.scrollWidth - collection.clientWidth - collection.scrollLeft < 1) {
-                console.log('FUNZIONA!!')
-
-            }
         },
 
         scrollLeft(id) {
@@ -62,7 +68,7 @@ export default {
                 'flex-wrap': !horizontal,
                 'justify-content-center': !horizontal,
                 'overflow-scroll': horizontal
-            }">
+            }" @scroll="scrollMouse(id)">
                 <div v-for="movie in movieArray">
                     <AppCard v-if="movie.backdrop_path" :class="{ 'm-1': movie.backdrop_path }" :movie="movie"
                         @showInfo="movie => $emit('showMovieInfo', movie)" />
