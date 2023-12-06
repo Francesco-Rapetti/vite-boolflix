@@ -15,6 +15,14 @@ export default {
 		return {
 			store,
 			currentMovie: null,
+			upcomingMovies: [],
+			upcomingMoviesPage: 1,
+			nowPlayingMovies: [],
+			nowPlayingMoviesPage: 1,
+			topRatedMovies: [],
+			topRatedMoviesPage: 1,
+			popularMovies: [],
+			popularMoviesPage: 1,
 		}
 	},
 
@@ -35,6 +43,12 @@ export default {
 			this.store.tvSeries = false;
 			this.store.myList = false;
 			console.log(this.store.series)
+		},
+
+		getCollectionArray(collection, apiURI, apiPage) {
+			axios.get(apiURI + apiPage++).then((response) => {
+				collection.push(...response.data.results)
+			})
 		},
 
 		/**
@@ -139,6 +153,11 @@ export default {
 
 	mounted() {
 		this.getImageDebug()
+		this.getCollectionArray(this.upcomingMovies, this.store.apiUpcomingMovies, this.upcomingMoviesPage);
+		this.getCollectionArray(this.nowPlayingMovies, this.store.apiNowPlayingMovies, this.nowPlayingMoviesPage);
+		this.getCollectionArray(this.topRatedMovies, this.store.apiTopRatedMovies, this.topRatedMoviesPage);
+		this.getCollectionArray(this.popularMovies, this.store.apiPopularMovies, this.popularMoviesPage);
+		this.store.home = true
 	}
 }
 </script>
@@ -156,10 +175,6 @@ export default {
 			:originalLanguage="currentMovie.original_language" :voteAverage="currentMovie.vote_average"
 			:overview="currentMovie.overview" :close="closeMovieInfo" />
 		<h2 v-if="store.search != ''" class="p-4">{{ `Risultati per: ${store.search}` }}</h2>
-		<!-- <AppCollection :horizontal="true" :movieArray="store.movies" id="prova1" section-name="prova1"
-		@showMovieInfo="getMovieInfo" />
-		<AppCollection :horizontal="true" :movieArray="store.movies" id="prova2" section-name="prova2"
-		@showMovieInfo="getMovieInfo" /> -->
 		<!-- Home -->
 		<div v-if="store.home" id="home">
 			home
@@ -170,7 +185,30 @@ export default {
 		</div>
 
 		<div v-if="store.film" id="film">
-			film
+			<AppCollection :horizontal="true" :movieArray="upcomingMovies" section-name="Upcoming" id="upcoming"
+				@showMovieInfo="getMovieInfo"
+				@loadMore="getCollectionArray(upcomingMovies, store.apiUpcomingMovies, upcomingMoviesPage)" />
+
+			<div class="spacer"></div>
+
+
+			<AppCollection :horizontal="true" :movieArray="nowPlayingMovies" section-name="Now playing in theaters"
+				id="nowPlaying" @showMovieInfo="getMovieInfo"
+				@loadMore="getCollectionArray(nowPlayingMovies, store.apiNowPlayingMovies, nowPlayingMoviesPage)" />
+
+			<div class="spacer"></div>
+
+			<AppCollection :horizontal="true" :movieArray="topRatedMovies" section-name="Top rated" id="topRated"
+				@showMovieInfo="getMovieInfo"
+				@loadMore="getCollectionArray(topRatedMovies, store.apiTopRatedMovies, topRatedMoviesPage)" />
+
+			<div class="spacer"></div>
+
+			<AppCollection :horizontal="true" :movieArray="popularMovies" section-name="Popular" id="popular"
+				@showMovieInfo="getMovieInfo"
+				@loadMore="getCollectionArray(popularMovies, store.apiPopularMovies, popularMoviesPage)" />
+
+			<div class="spacer"></div>
 		</div>
 
 		<div v-if="store.myList" id="myList">
@@ -185,7 +223,11 @@ export default {
 
 <style scoped>
 #header-spacer {
-	height: 56px;
+	height: 112px;
+}
+
+.spacer {
+	height: 2rem;
 }
 </style>
  
