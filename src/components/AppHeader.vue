@@ -53,7 +53,7 @@ export default {
                             store.tvSeries = true,
                             store.film = false,
                             store.myList = false,
-                            store.search = ''">Serie Tv</a>
+                            store.search = ''">Tv</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" @click="
@@ -61,7 +61,7 @@ export default {
                             store.tvSeries = false,
                             store.film = true,
                             store.myList = false,
-                            store.search = ''">Film</a>
+                            store.search = ''">Movies</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" @click="
@@ -69,7 +69,7 @@ export default {
                             store.tvSeries = false,
                             store.film = false,
                             store.myList = true,
-                            store.search = ''">La mia lista</a>
+                            store.search = ''">My List</a>
                     </li>
                 </ul>
                 <div class="d-flex">
