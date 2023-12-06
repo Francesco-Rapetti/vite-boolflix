@@ -23,14 +23,16 @@ export default {
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-lg bg-light position-fixed w-100 z-3">
+    <nav class="navbar navbar-expand-lg bg-light position-fixed w-100 z-3 bg-black text-white">
         <div class="container-fluid">
             <a class="navbar-brand" href="#" @click="
                 store.home = true,
                 store.tvSeries = false,
                 store.film = false,
                 store.myList = false,
-                store.search = ''">BOOLFLIX</a>
+                store.search = ''"><img
+                    src="https://fontmeme.com/permalink/231206/504e88f1a30f968e13f4cdd854aab685.png" alt="netflix-font"
+                    border="0"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -80,4 +82,18 @@ export default {
     </nav>
 </template>
 
-<style scoped></style>
+<style scoped>
+a {
+    color: white;
+    font-size: larger;
+    margin-right: 2rem;
+}
+
+a:hover {
+    color: red !important;
+}
+
+a:focus {
+    color: red !important;
+}
+</style>
