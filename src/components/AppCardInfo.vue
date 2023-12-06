@@ -24,6 +24,8 @@ export default {
                 case 'en': flag = 'gb'; break;
                 case 'ja': flag = 'jp'; break;
                 case 'ko': flag = 'kr'; break;
+                case 'hi': flag = 'in'; break;
+                case 'zh': flag = 'cn'; break;
                 default: break;
             }
             return new URL(`../../node_modules/svg-country-flags/svg/${flag}.svg`, import.meta.url).href;
