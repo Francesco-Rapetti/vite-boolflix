@@ -23,6 +23,15 @@ export default {
 			topRatedMoviesPage: 1,
 			popularMovies: [],
 			popularMoviesPage: 1,
+
+			airingTodaySeries: [],
+			airingTodaySeriesPage: 1,
+			onTheAirSeries: [],
+			onTheAirSeriesPage: 1,
+			topRatedSeries: [],
+			topRatedSeriesPage: 1,
+			popularSeries: [],
+			popularSeriesPage: 1,
 		}
 	},
 
@@ -157,6 +166,11 @@ export default {
 		this.getCollectionArray(this.nowPlayingMovies, this.store.apiNowPlayingMovies, this.nowPlayingMoviesPage);
 		this.getCollectionArray(this.topRatedMovies, this.store.apiTopRatedMovies, this.topRatedMoviesPage);
 		this.getCollectionArray(this.popularMovies, this.store.apiPopularMovies, this.popularMoviesPage);
+
+		this.getCollectionArray(this.airingTodaySeries, this.store.apiAiringTodaySeries, this.airingTodaySeriesPage);
+		this.getCollectionArray(this.onTheAirSeries, this.store.apiOnTheAirSeries, this.onTheAirSeriesPage);
+		this.getCollectionArray(this.topRatedSeries, this.store.apiTopRatedSeries, this.topRatedSeriesPage);
+		this.getCollectionArray(this.popularSeries, this.store.apiPopularSeries, this.popularSeriesPage);
 		this.store.home = true
 	}
 }
@@ -181,7 +195,30 @@ export default {
 		</div>
 
 		<div v-if="store.tvSeries" id="tvSeries">
-			serie tv
+			<AppCollection :horizontal="true" :movieArray="airingTodaySeries" section-name="Airing today" id="airingToday"
+				@showMovieInfo="getMovieInfo"
+				@loadMore="getCollectionArray(airingTodaySeries, store.apiAiringTodaySeries, airingTodaySeriesPage)" />
+
+			<div class="spacer"></div>
+
+
+			<AppCollection :horizontal="true" :movieArray="onTheAirSeries" section-name="On air this week" id="onTheAir"
+				@showMovieInfo="getMovieInfo"
+				@loadMore="getCollectionArray(onTheAirSeries, store.apiOnTheAirSeries, onTheAirSeriesPage)" />
+
+			<div class="spacer"></div>
+
+			<AppCollection :horizontal="true" :movieArray="topRatedSeries" section-name="Top rated" id="topRatedSeries"
+				@showMovieInfo="getMovieInfo"
+				@loadMore="getCollectionArray(topRatedSeries, store.apiTopRatedSeries, topRatedSeriesPage)" />
+
+			<div class="spacer"></div>
+
+			<AppCollection :horizontal="true" :movieArray="popularSeries" section-name="Popular" id="popularSeries"
+				@showMovieInfo="getMovieInfo"
+				@loadMore="getCollectionArray(popularSeries, store.apiPopularSeries, popularSeriesPage)" />
+
+			<div class="spacer"></div>
 		</div>
 
 		<div v-if="store.film" id="film">
