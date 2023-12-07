@@ -123,7 +123,6 @@ export default {
             let flag = this.store.language.substring(3, 5).toLowerCase();
             if (input) flag = input;
             switch (flag) {
-                // case 'en': flag = 'gb'; break;
                 case 'ja': flag = 'jp'; break;
                 case 'ko': flag = 'kr'; break;
                 case 'hi': flag = 'in'; break;
@@ -134,10 +133,15 @@ export default {
         },
 
         getAllLanguages() {
+            this.languages.push('zh-CN')
+            const blacklist = ['eo-EO', 'ar-AE', 'af-ZA', 'be-BY', 'bn-BD', 'ch-GU', 'cn-CN', 'cy-GB', 'de-AT', 'de-CH', 'et-EE', 'ga-IE', 'gd-GB', 'gl-ES', 'kk-KZ', 'kn-IN', 'pa-IN', 'si-LK', 'ky-KG', 'ta-IN', 'ms-MY', 'te-IN', 'tl-PH', 'mr-IN', 'zu-ZA', 'nl-BE', 'sq-AL', 'id-ID', 'ms-SG']
             axios.get(this.store.apiLanguagesSetup).then((response) => {
-                this.languages = response.data
+                response.data.forEach((language) => {
+                    if (!blacklist.includes(language)) {
+                        this.languages.push(language)
+                    }
+                })
             })
-            console.log(this.languages)
         }
     },
 
