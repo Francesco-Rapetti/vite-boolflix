@@ -96,7 +96,7 @@ export default {
                     }"></i>
                     </div>
                 </div>
-                <p>{{ overview }}</p>
+                <p>{{ overview ? overview : 'N/A' }}</p>
             </div>
         </div>
     </div>
