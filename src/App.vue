@@ -36,9 +36,7 @@ export default {
 	},
 
 	methods: {
-		getImageDebug() {
-			console.log('getImageDebug')
-			console.log(this.store.search)
+		getSearchCollection() {
 			axios.get(`${this.store.apiURI}/search/movie?api_key=${this.store.apiKey}&language=${this.store.language}&query=${encodeURI(this.store.search)}`).then((response) => {
 				this.store.movies = response.data.results
 			})
@@ -47,16 +45,40 @@ export default {
 				this.store.series = response.data.results
 			})
 
+
+		},
+
+		resetValues() {
+			this.upcomingMovies = [];
+			this.nowPlayingMovies = [];
+			this.topRatedMovies = [];
+			this.popularMovies = [];
+			this.onTheAirSeries = [];
+			this.airingTodaySeries = [];
+			this.topRatedSeries = [];
+			this.popularSeries = [];
+
+			this.upcomingMoviesPage = 1;
+			this.nowPlayingMoviesPage = 1;
+			this.topRatedMoviesPage = 1;
+			this.popularMoviesPage = 1;
+			this.onTheAirSeriesPage = 1;
+			this.airingTodaySeriesPage = 1;
+			this.topRatedSeriesPage = 1;
+			this.popularSeriesPage = 1;
+		},
+
+		resetSections() {
 			this.store.home = false;
 			this.store.film = false;
 			this.store.tvSeries = false;
 			this.store.myList = false;
-			console.log(this.store.series)
 		},
 
 		getCollectionArray(collection, apiURI, apiPage) {
 			axios.get(apiURI + apiPage++).then((response) => {
 				collection.push(...response.data.results)
+				// console.log(collection)
 			})
 		},
 
@@ -157,38 +179,44 @@ export default {
 
 			// Set the current movie to null
 			this.currentMovie = null;
+		},
+
+		collectionRefactor() {
+			// console.log(this.store.language)
+			this.resetValues()
+			this.getSearchCollection()
+			this.getCollectionArray(this.upcomingMovies, `${this.store.apiURI}/movie/upcoming?api_key=${this.store.apiKey}&language=${this.store.language}&page=`, this.upcomingMoviesPage);
+			this.getCollectionArray(this.nowPlayingMovies, `${this.store.apiURI}/movie/now_playing?api_key=${this.store.apiKey}&language=${this.store.language}&page=`, this.nowPlayingMoviesPage);
+			this.getCollectionArray(this.topRatedMovies, `${this.store.apiURI}/movie/top_rated?api_key=${this.store.apiKey}&language=${this.store.language}&page=`, this.topRatedMoviesPage);
+			this.getCollectionArray(this.popularMovies, `${this.store.apiURI}/movie/popular?api_key=${this.store.apiKey}&language=${this.store.language}&page=`, this.popularMoviesPage);
+
+			this.getCollectionArray(this.airingTodaySeries, `${this.store.apiURI}/tv/airing_today?api_key=${this.store.apiKey}&language=${this.store.language}&page=`, this.airingTodaySeriesPage);
+			this.getCollectionArray(this.onTheAirSeries, `${this.store.apiURI}/tv/on_the_air?api_key=${this.store.apiKey}&language=${this.store.language}&page=`, this.onTheAirSeriesPage);
+			this.getCollectionArray(this.topRatedSeries, `${this.store.apiURI}/tv/top_rated?api_key=${this.store.apiKey}&language=${this.store.language}&page=`, this.topRatedSeriesPage);
+			this.getCollectionArray(this.popularSeries, `${this.store.apiURI}/tv/popular?api_key=${this.store.apiKey}&language=${this.store.language}&page=`, this.popularSeriesPage);
 		}
 	},
 
 	mounted() {
-		this.getImageDebug()
-		this.getCollectionArray(this.upcomingMovies, `${this.store.apiURI}/movie/upcoming?api_key=${this.store.apiKey}&language=${this.store.language}&page=`, this.upcomingMoviesPage);
-		this.getCollectionArray(this.nowPlayingMovies, `${this.store.apiURI}/movie/now_playing?api_key=${this.store.apiKey}&language=${this.store.language}&page=`, this.nowPlayingMoviesPage);
-		this.getCollectionArray(this.topRatedMovies, `${this.store.apiURI}/movie/top_rated?api_key=${this.store.apiKey}&language=${this.store.language}&page=`, this.topRatedMoviesPage);
-		this.getCollectionArray(this.popularMovies, `${this.store.apiURI}/movie/popular?api_key=${this.store.apiKey}&language=${this.store.language}&page=`, this.popularMoviesPage);
-
-		this.getCollectionArray(this.airingTodaySeries, `${this.store.apiURI}/tv/airing_today?api_key=${this.store.apiKey}&language=${this.store.language}&page=`, this.airingTodaySeriesPage);
-		this.getCollectionArray(this.onTheAirSeries, `${this.store.apiURI}/tv/on_the_air?api_key=${this.store.apiKey}&language=${this.store.language}&page=`, this.onTheAirSeriesPage);
-		this.getCollectionArray(this.topRatedSeries, `${this.store.apiURI}/tv/top_rated?api_key=${this.store.apiKey}&language=${this.store.language}&page=`, this.topRatedSeriesPage);
-		this.getCollectionArray(this.popularSeries, `${this.store.apiURI}/tv/popular?api_key=${this.store.apiKey}&language=${this.store.language}&page=`, this.popularSeriesPage);
+		this.collectionRefactor()
 		this.store.home = true
 	}
 }
 </script>
 
 <template>
+	<AppCardInfo v-if="currentMovie" :id="currentMovie.id" :poster="store.apiImg + currentMovie.poster_path"
+		:title="currentMovie.title ? currentMovie.title : currentMovie.name"
+		:releaseDate="currentMovie.release_date ? currentMovie.release_date : currentMovie.first_air_date"
+		:originalLanguage="currentMovie.original_language" :voteAverage="currentMovie.vote_average"
+		:overview="currentMovie.overview" :close="closeMovieInfo" />
 	<header>
-		<AppHeader :button-function="getImageDebug" />
-		<div id="header-spacer"></div>
+		<AppHeader :button-function="getSearchCollection" @changeLanguage="collectionRefactor" />
 	</header>
 
 	<main>
-		<AppCardInfo v-if="currentMovie" :id="currentMovie.id" :poster="store.apiImg + currentMovie.poster_path"
-			:title="currentMovie.title ? currentMovie.title : currentMovie.name"
-			:releaseDate="currentMovie.release_date ? currentMovie.release_date : currentMovie.first_air_date"
-			:originalLanguage="currentMovie.original_language" :voteAverage="currentMovie.vote_average"
-			:overview="currentMovie.overview" :close="closeMovieInfo" />
-		<h2 v-if="store.search != ''" class="p-4">{{ `Risultati per: ${store.search}` }}</h2>
+
+		<h2 v-if="store.search != ''" class="p-4">{{ `Risultati per: ${store.search} ` }}</h2>
 		<!-- Home -->
 		<div v-if="store.home" id="home">
 			<h2 class="p-4">Popular</h2>
@@ -284,10 +312,6 @@ export default {
 </template>
 
 <style scoped>
-#header-spacer {
-	height: 112px;
-}
-
 .spacer {
 	height: 1rem;
 }

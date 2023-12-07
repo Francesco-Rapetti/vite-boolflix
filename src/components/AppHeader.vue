@@ -1,4 +1,5 @@
 <script>
+import axios from 'axios';
 import { store } from '../store.js';
 export default {
     name: 'AppHeader',
@@ -8,7 +9,8 @@ export default {
     data() {
         return {
             store,
-            inputValue: ''
+            inputValue: '',
+            languages: []
         }
     },
 
@@ -20,8 +22,13 @@ export default {
             // Calls the buttonFunction
             this.buttonFunction()
 
+            this.store.home = false
+            this.store.tvSeries = false
+            this.store.film = false
+            this.store.myList = false
+
             // Resets the input value to an empty string
-            document.querySelector('input').value = ''
+            document.querySelector('input[type="text"]').value = ''
         },
 
         /**
@@ -110,11 +117,33 @@ export default {
                     myList.style.color = 'red';
                     break;
             }
+        },
+
+        getLanguageFlag(input) {
+            let flag = this.store.language.substring(3, 5).toLowerCase();
+            if (input) flag = input;
+            switch (flag) {
+                // case 'en': flag = 'gb'; break;
+                case 'ja': flag = 'jp'; break;
+                case 'ko': flag = 'kr'; break;
+                case 'hi': flag = 'in'; break;
+                case 'zh': flag = 'cn'; break;
+                default: break;
+            }
+            return new URL(`../../node_modules/svg-country-flags/svg/${flag}.svg`, import.meta.url).href;
+        },
+
+        getAllLanguages() {
+            axios.get(this.store.apiLanguagesSetup).then((response) => {
+                this.languages = response.data
+            })
+            console.log(this.languages)
         }
     },
 
     mounted() {
-        this.setPage('home')
+        this.getAllLanguages();
+        this.setPage('home');
     }
 }
 </script>
@@ -144,7 +173,37 @@ export default {
                         <a id="myList" class="nav-link" href="#" @click="setPage('myList')">My List</a>
                     </li>
                 </ul>
-                <div class="d-flex">
+                <div class="d-flex align-items-center">
+                    <div class="dropdown">
+                        <a class="dropdown-toggle d-flex align-items-center text-white me-3" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <div id="flag-button" class="d-flex align-items-center justify-content-center">
+                                <img class="w-100" :src="getLanguageFlag()" alt="">
+                            </div>
+                        </a>
+
+                        <ul class="dropdown-menu overflow-auto">
+                            <li v-for="language in languages"><a v-if="language !== store.language" class="dropdown-item"
+                                    href="#" @click="store.language = language, $emit('changeLanguage')">
+                                    <div class="d-flex align-items-center">
+                                        <div id="flag-button" class="d-flex align-items-center justify-content-center">
+                                            <img class="w-100"
+                                                :src="getLanguageFlag(language.substring(3, 5).toLowerCase())" alt="">
+                                        </div>
+                                        <span class="ms-2">{{ language }}</span>
+                                    </div>
+                                </a></li>
+                            <!-- <li v-if="store.language !== 'it-IT'"><a class="dropdown-item" href="#"
+                                    @click="store.language = 'it-IT'">
+                                    <div class="d-flex align-items-center">
+                                        <div id="flag-button" class="d-flex align-items-center justify-content-center">
+                                            <img class="w-100" :src="getLanguageFlag('it')" alt="">
+                                        </div>
+                                        <span class="ms-2">Italiano</span>
+                                    </div>
+                                </a></li> -->
+                        </ul>
+                    </div>
                     <input id="inputSearch" type="text" name="search" @input="inputValue = $event.target.value"
                         @keyup.enter="setValue">
                     <button class="btn btn-outline-danger" @click="setValue">Search</button>
@@ -155,12 +214,21 @@ export default {
 </template>
 
 <style scoped>
+#flag-button {
+    width: 30px !important;
+}
+
+.dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
 input {
     background-color: #222222;
     border: none;
     border-radius: 16px;
     margin-right: 0.5rem;
-    padding: 12px;
+    padding: 8px 12px;
     color: white;
 }
 
@@ -172,17 +240,17 @@ button {
     border-radius: 16px;
 }
 
-a {
+a.nav-link {
     color: white;
     font-size: larger;
     margin-right: 2rem;
 }
 
-a:hover {
+a.nav-link:hover {
     color: red !important;
 }
 
-a:focus {
+a.nav-link:focus {
     color: red !important;
 }
 </style>
