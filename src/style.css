@@ -9,6 +9,10 @@ body {
 	color: white;
 }
 
+main {
+	padding-top: 112px;
+}
+
 p {
 	margin: 0;
 }
