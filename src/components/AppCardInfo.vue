@@ -130,8 +130,6 @@ export default {
     transition: all 0.5s ease;
     opacity: 0;
     transform: scale(0.5);
-    position: relative;
-    bottom: 100px;
 }
 
 #flag {
