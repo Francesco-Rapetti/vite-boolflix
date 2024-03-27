@@ -119,9 +119,20 @@ export default {
             }
         },
 
+        /**
+         * Returns the URL of the language flag SVG based on the input language code.
+         * If no input is provided, it uses the language code from the store.
+         * @param {string} input - The language code (optional)
+         * @returns {string} - The URL of the language flag SVG
+         */
         getLanguageFlag(input) {
+            // Extract the language code from the store
             let flag = this.store.language.substring(3, 5).toLowerCase();
+
+            // Override the language code if input is provided
             if (input) flag = input;
+
+            // Map language codes to flag codes
             switch (flag) {
                 case 'ja': flag = 'jp'; break;
                 case 'ko': flag = 'kr'; break;
@@ -129,14 +140,28 @@ export default {
                 case 'zh': flag = 'cn'; break;
                 default: break;
             }
+
+            // Construct and return the URL of the language flag SVG
             return new URL(`../../node_modules/svg-country-flags/svg/${flag}.svg`, import.meta.url).href;
         },
 
+        /**
+         * Fetches the list of all languages from the API and adds them to the 'languages' array.
+         *
+         * @return {void} This function does not return a value.
+         */
         getAllLanguages() {
+            // Add 'zh-CN' because it's not in the API
             this.languages.push('zh-CN')
+
+            // List of languages to be excluded
             const blacklist = ['eo-EO', 'ar-AE', 'af-ZA', 'be-BY', 'bn-BD', 'ch-GU', 'cn-CN', 'cy-GB', 'de-AT', 'de-CH', 'et-EE', 'ga-IE', 'gd-GB', 'gl-ES', 'kk-KZ', 'kn-IN', 'pa-IN', 'si-LK', 'ky-KG', 'ta-IN', 'ms-MY', 'te-IN', 'tl-PH', 'mr-IN', 'zu-ZA', 'nl-BE', 'sq-AL', 'id-ID', 'ms-SG']
+
+            // Fetch the list of languages from the API
             axios.get(this.store.apiLanguagesSetup).then((response) => {
+                // Iterate through each language in the response
                 response.data.forEach((language) => {
+                    // Add the language to the 'languages' array if it's not in the blacklist
                     if (!blacklist.includes(language)) {
                         this.languages.push(language)
                     }
@@ -196,16 +221,8 @@ export default {
                                         </div>
                                         <span class="ms-2">{{ language }}</span>
                                     </div>
-                                </a></li>
-                            <!-- <li v-if="store.language !== 'it-IT'"><a class="dropdown-item" href="#"
-                                    @click="store.language = 'it-IT'">
-                                    <div class="d-flex align-items-center">
-                                        <div id="flag-button" class="d-flex align-items-center justify-content-center">
-                                            <img class="w-100" :src="getLanguageFlag('it')" alt="">
-                                        </div>
-                                        <span class="ms-2">Italiano</span>
-                                    </div>
-                                </a></li> -->
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <input id="inputSearch" type="text" name="search" @input="inputValue = $event.target.value"
